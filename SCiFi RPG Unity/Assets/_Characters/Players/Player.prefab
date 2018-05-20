@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 114160007645828888}
   - component: {fileID: 114272079648426652}
   - component: {fileID: 114305730670081004}
+  - component: {fileID: 114734722957537338}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -88,6 +89,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4915820850626154}
+  - component: {fileID: 114532439191583338}
   m_Layer: 10
   m_Name: Hand_R
   m_TagString: Untagged
@@ -103,7 +105,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4623110775874220}
-  - component: {fileID: 114712011253604610}
   m_Layer: 10
   m_Name: Hand_L
   m_TagString: Untagged
@@ -499,7 +500,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1243274310699506}
   m_LocalRotation: {x: -0, y: -0.048314966, z: -0, w: 0.9988322}
-  m_LocalPosition: {x: 57.31, y: 0.03, z: 44.54}
+  m_LocalPosition: {x: 47.6, y: 0.03, z: 15.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4485642187737598}
@@ -706,10 +707,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealthPoints: 1000
   enemyLayer: 9
-  damagePerHit: 50
-  minTimeBetweenHits: 1
-  maxAttackRange: 2
-  weaponInUse: {fileID: 11400000, guid: e17deb2016ba2534cae553def6a63804, type: 2}
+  damagePerHit: 60
+  weaponInUse: {fileID: 11400000, guid: d26a6b3a96f498c4bb06a486b3f81cb6, type: 2}
   animatorOverrideController: {fileID: 22100000, guid: 73511bc495974384db7b164198b2ddd1,
     type: 2}
 --- !u!114 &114449330331931356
@@ -735,24 +734,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 521b611700410be45810047f0a74e899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114712011253604610
+--- !u!114 &114532439191583338
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1473487255355134}
+  m_GameObject: {fileID: 1337821239400762}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44e7b6d9ba099ca488e798c7650fbd0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114734722957537338
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1243274310699506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3abde660e691edb4ba483b936fb7be2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyBar: {fileID: 0}
+  maxEnergyPoints: 100
 --- !u!136 &136551760168068964
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1243274310699506}
-  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.3
