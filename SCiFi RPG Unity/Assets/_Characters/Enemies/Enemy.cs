@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityStandardAssets.Characters.ThirdPerson;
+﻿    using UnityEngine;
 
 // TODO: Consider rewiring
 using RPG.Core;
@@ -17,11 +14,14 @@ namespace RPG.Characters
         float currentHealthPoints;
         
         AICharacterControl aiCharacterControl = null;
-        GameObject player = null;
+        Player player = null;
 
         [SerializeField] float attackRadius = 4f;
         [SerializeField] float damagePerShot = 9f;
-        public float secondsBetweenShots = 1f;
+        [SerializeField] public float firingPeriodInS = 1f;
+
+        [SerializeField] float firingPeriodVariation = 0.1f;
+
         [SerializeField] GameObject projectileToUse;
         [SerializeField] GameObject projectileSocket;
         [SerializeField] Vector3 aimOffset = new Vector3(0f, 1f, 0f);
@@ -43,21 +43,30 @@ namespace RPG.Characters
         private void Start()
         {
             aiCharacterControl = GetComponent<AICharacterControl>();
-            player = GameObject.FindWithTag("Player");
+            player = FindObjectOfType<Player>();
             currentHealthPoints = maxHealthPoints;
         }
 
         private void Update()
         {
+            // stops enemies behaviour
+            if(player.healthAsPercentage <= Mathf.Epsilon)
+            {
+                StopAllCoroutines();
+                Destroy(this);  // removes the enemy component
+            }
+            
             Vector3 enemyPosition = transform.position;
             Vector3 playerPosition = player.transform.position;
 
             float diff = Vector3.Distance(enemyPosition, playerPosition);
             if(diff <= attackRadius && !isAttacking)
             {
-            isAttacking = true;
-            InvokeRepeating("SpawnProjectile", 0f, secondsBetweenShots); // TODO: make this a coroutine
-            transform.LookAt(player.transform);
+                isAttacking = true;
+
+                float randomizedDelay = firingPeriodInS + Random.Range(-firingPeriodVariation, firingPeriodVariation);
+                InvokeRepeating("SpawnProjectile", 0f, randomizedDelay);
+                transform.LookAt(player.transform);
             }
 
             if(diff <= attackRadius)

@@ -56,6 +56,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1182328654363260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4689969281759072}
+  - component: {fileID: 114786512746220988}
+  m_Layer: 2
+  m_Name: AudioTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1195192970822486
 GameObject:
   m_ObjectHideFlags: 1
@@ -568,6 +584,19 @@ Transform:
   m_Father: {fileID: 4699603279362392}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4689969281759072
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1182328654363260}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4872685583012368}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4696373663559556
 Transform:
   m_ObjectHideFlags: 1
@@ -662,14 +691,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1219341901658152}
-  m_LocalRotation: {x: -0, y: -0.9995314, z: -0, w: -0.03061037}
-  m_LocalPosition: {x: 15.395, y: 0, z: -17.149696}
+  m_LocalRotation: {x: -0, y: 0.9781545, z: -0, w: -0.20787936}
+  m_LocalPosition: {x: 46.19, y: 0, z: 14.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4355760044955910}
   - {fileID: 4145079937930272}
   - {fileID: 4777597941313020}
   - {fileID: 4180701702089810}
+  - {fileID: 4689969281759072}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -183.508, z: 0}
@@ -764,7 +794,8 @@ MonoBehaviour:
   maxHealthPoints: 300
   attackRadius: 2
   damagePerShot: 60
-  secondsBetweenShots: 2
+  firingPeriodInS: 1
+  firingPeriodVariation: 0.1
   projectileToUse: {fileID: 1208678635681136, guid: 2fd957671bacccb44beaf866ae94583b,
     type: 2}
   projectileSocket: {fileID: 1286983309354610}
@@ -782,6 +813,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+--- !u!114 &114786512746220988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1182328654363260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 552b327c590a2b940ac9959935bb079e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 10d6fcbe94d67844c8ce070dc89c81e0, type: 3}
+  layerFilter: 10
+  triggerRadius: 7
+  isOneTimeOnly: 1
+  hasPlayed: 0
 --- !u!136 &136550887575403718
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -792,9 +839,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.3
-  m_Height: 1.6
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0.8, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!137 &137943027740552500
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -871,7 +918,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1219341901658152}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.2
   m_Speed: 4
   m_Acceleration: 8
   avoidancePriority: 50

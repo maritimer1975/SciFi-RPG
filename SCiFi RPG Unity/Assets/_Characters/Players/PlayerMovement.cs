@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityStandardAssets.Characters.ThirdPerson;
 using UnityEngine.AI;
 
 // TODO: Consider rewiring
@@ -9,24 +8,23 @@ using RPG.Core;
 
 namespace RPG.Characters
 {
+    
+#region REQUIRED COMPONENTS
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(AICharacterControl))]
     [RequireComponent(typeof (ThirdPersonCharacter))]
+#endregion
+
     public class PlayerMovement : MonoBehaviour
     {
-        //[SerializeField] float walkMoveStopRadius = 0.2f;
-        //[SerializeField] float attackMoveStopRadius = 5f;
-
-        [SerializeField] const int walkableLayerNumber = 8;
-        [SerializeField] const int enemyLayerNumber = 9;
-
+#region VARIABLES
         [SerializeField] MovementModes movementMode;
-
-        //[SerializeField] private TransformVariable playerTransform;
 
         ThirdPersonCharacter player = null;   // A reference to the ThirdPersonCharacter on the object
         CameraRaycaster cameraRaycaster = null;
         Vector3 clickPoint, movement;
+
+        AICharacterControl aiCharacterControl;
 
         Rigidbody rb = null;
 
@@ -38,25 +36,17 @@ namespace RPG.Characters
 
         float speed = 5f;
 
+#endregion
+
+#region UNITY METHODS
         void Awake()
         {
-            
+            InitializeComponents();
         }
 
         void Start()
         {
-            cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
-            player = GetComponent<ThirdPersonCharacter>();
-
-            agent = GetComponent<NavMeshAgent>();
-            rb = GetComponent<Rigidbody>();
-
-            anim = GetComponent<Animator>();
-
-            // mouse click event subscriber, only if in mouse movement mode
-            if(movementMode == MovementModes.Mouse)
-                cameraRaycaster.notifyMouseClickObservers += ProcessMouseClick;
-
+            RegisterObservers();
         }
 
         void FixedUpdate()
@@ -78,13 +68,75 @@ namespace RPG.Characters
             }
         }
 
-        void Move(float h, float v)
+#endregion
+
+#region CUSTOM METHODS
+        void Animate(float h, float v)
+        {
+            bool walking = h != 0 || v != 0;
+            if(walking)
+                anim.SetFloat("Forward", 1);
+        }
+        
+        private void InitializeComponents()
+        {
+            cameraRaycaster = Camera.main.GetComponent<CameraRaycaster>();
+            player = GetComponent<ThirdPersonCharacter>();
+            agent = GetComponent<NavMeshAgent>();
+            rb = GetComponent<Rigidbody>();
+            anim = GetComponent<Animator>();
+            aiCharacterControl = GetComponent<AICharacterControl>();
+        }
+
+         void Move(float h, float v)
         {
             movement.Set(h, 0f, v);
             movement = movement.normalized * speed * Time.deltaTime; 
             rb.MovePosition(transform.position + movement);
                     
             Debug.Log("Movement: " + movement);
+        }
+
+        void OnMouseOverEnemy(Enemy enemy)
+        {
+            if(Input.GetMouseButton(0) || Input.GetMouseButtonDown(1))
+            {
+                agent.destination = enemy.transform.position; //aiCharacterControl.SetTarget(enemy.transform);
+            }
+        }
+
+         void OnMouseOverTerrain(Vector3 destination)
+        {           
+            if(Input.GetMouseButton(0))
+            {
+                agent.destination = destination;
+            }
+        }
+
+         private void ProcessDirectMovement()
+        {
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
+            
+            // calculate camera relative direction to move:
+            Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+            Vector3 playerMove = v * cameraForward + h * Camera.main.transform.right;
+
+            player.Move(playerMove, false, false);
+        }
+
+        private void RegisterObservers()
+        {
+            if (movementMode == MovementModes.Mouse)
+                cameraRaycaster.notifyMouseOverTerrain += OnMouseOverTerrain;
+
+            cameraRaycaster.notifyMouseOverEnemy += OnMouseOverEnemy;
+        }
+
+        private Vector3 ShortDestination(Vector3 destination, float shortening)
+        {
+            Vector3 reductionVector = (destination - transform.position).normalized * shortening;
+            return destination - reductionVector;
         }
 
         void Turn()
@@ -102,52 +154,6 @@ namespace RPG.Characters
 
             }
         }
-
-        void Animate(float h, float v)
-        {
-            bool walking = h != 0 || v != 0;
-            if(walking)
-                anim.SetFloat("Forward", 1);
-        }
-
-
-        void ProcessMouseClick(RaycastHit raycastHit, int layerHit)
-        {
-            // new movement based on event
-            
-            
-            switch(layerHit)
-            {
-                case enemyLayerNumber:
-                    agent.destination = raycastHit.point;
-                    break;
-
-                case walkableLayerNumber:         
-                    agent.destination = raycastHit.point;
-                    break;
-
-                default:
-                    Debug.LogError("Don't know how to handle the mouse click for playermovement.");
-                    break;
-            }
-        }
-
-        private Vector3 ShortDestination(Vector3 destination, float shortening)
-        {
-            Vector3 reductionVector = (destination - transform.position).normalized * shortening;
-            return destination - reductionVector;
-        }
-
-        private void ProcessDirectMovement()
-        {
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Vertical");
-            
-            // calculate camera relative direction to move:
-            Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
-            Vector3 playerMove = v * cameraForward + h * Camera.main.transform.right;
-
-            player.Move(playerMove, false, false);
-        }
+#endregion
     }
 }

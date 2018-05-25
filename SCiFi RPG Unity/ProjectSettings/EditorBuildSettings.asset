@@ -4,4 +4,7 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_Levels/Jason's Village.unity
+    guid: 4c1ee2939d87bc14b88528f2f72ddb3b

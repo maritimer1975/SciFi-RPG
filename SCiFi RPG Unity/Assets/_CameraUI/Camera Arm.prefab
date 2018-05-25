@@ -37,7 +37,6 @@ GameObject:
   - component: {fileID: 4498239808756774}
   - component: {fileID: 20800699681337492}
   - component: {fileID: 114996648987294754}
-  - component: {fileID: 114975303658055590}
   - component: {fileID: 124531051036736182}
   - component: {fileID: 81585962294179620}
   m_Layer: 0
@@ -53,27 +52,27 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1627612407264760}
-  m_LocalRotation: {x: 0.32165876, y: -0, z: -0, w: 0.9468557}
-  m_LocalPosition: {x: 0.2, y: 6.72, z: -7.89}
+  m_LocalRotation: {x: 0.16840114, y: -0, z: -0, w: 0.9857186}
+  m_LocalPosition: {x: 64.274, y: 10.727, z: -72.968}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4498239808756774}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 37.527, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 19.390001, y: 0, z: 0}
 --- !u!4 &4498239808756774
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1996187379761914}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.15930733, y: -0, z: -0, w: 0.98722905}
+  m_LocalPosition: {x: 0.16, y: 3.55, z: -0.353}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4304635217394052}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 18.333, y: 0, z: 0}
 --- !u!20 &20800699681337492
 Camera:
   m_ObjectHideFlags: 1
@@ -129,22 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  offset: {x: 0, y: 10, z: -12}
---- !u!114 &114975303658055590
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1996187379761914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22cbd31579b223340a5258ff58e9c752, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkCursor: {fileID: 2800000, guid: cd5fa22538b77ab48aec2413ea6f6d31, type: 3}
-  enemyCursor: {fileID: 2800000, guid: 1c5f96a42906d1c47b572d0e472d38ec, type: 3}
-  unknownCursor: {fileID: 2800000, guid: b395983886cebf84ca8608918a8578de, type: 3}
-  cursorHotspot: {x: 0, y: 0}
+  offset: {x: 5, y: 15, z: -20}
 --- !u!114 &114996648987294754
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -156,7 +140,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d02853f5d34bd8f429969ac34c466d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerPriorities: 0900000008000000
+  walkCursor: {fileID: 2800000, guid: cd5fa22538b77ab48aec2413ea6f6d31, type: 3}
+  enemyCursor: {fileID: 2800000, guid: 1c5f96a42906d1c47b572d0e472d38ec, type: 3}
+  unknownCursor: {fileID: 2800000, guid: b395983886cebf84ca8608918a8578de, type: 3}
+  cursorHotspot: {x: 0, y: 0}
 --- !u!124 &124531051036736182
 Behaviour:
   m_ObjectHideFlags: 1
