@@ -17,7 +17,7 @@ namespace RPG.CameraUI
 		private const int clickToWalkLayer = 8;
 		float maxRaycastDepth = 100f; // Hard coded value
 
-		Rect screenRectAtStartOfPlay = new Rect(0, 0, Screen.width, Screen.height); // move inside update to support screen resize
+		Rect currentScreenRect;
 
 #endregion
 
@@ -35,6 +35,8 @@ namespace RPG.CameraUI
 #region UNITY METHODS
 		void Update()
 		{
+			
+			currentScreenRect = new Rect(0, 0, Screen.width, Screen.height); // move inside update to support screen resize
 			if(EventSystem.current.IsPointerOverGameObject())
 			{
 				// implement UI interaction
@@ -90,7 +92,7 @@ namespace RPG.CameraUI
 
 		private void PerformRaycasts()
         {
-            if(screenRectAtStartOfPlay.Contains( Input.mousePosition))
+            if(currentScreenRect.Contains(Input.mousePosition))
 			{
 			
 				Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);

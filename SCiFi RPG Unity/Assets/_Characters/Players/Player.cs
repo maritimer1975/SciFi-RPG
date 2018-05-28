@@ -20,11 +20,19 @@ namespace RPG.Characters
 
         [SerializeField] AnimatorOverrideController animatorOverrideController;
 
+        [SerializeField] ParticleSystem criticalHitParticle;
+
         [SerializeField] AudioClip[] damageSounds;
         [SerializeField] AudioClip[] deathSounds;
 
         // temporarily serializing for debugging
-        [SerializeField] SpecialAbility[] abilities;
+        [SerializeField] AbilityConfig[] abilities;
+
+
+        [Header ("Critical Hit Stats")]
+        [Range (0.1f, 1.0f)] [SerializeField] float criticalHitChance = 0.1f;
+
+        [SerializeField] float criticalHitMultiplier = 1.25f;
 
         Animator animator;
         float currentHealthPoints;
@@ -37,7 +45,11 @@ namespace RPG.Characters
 
         Energy energyComponent = null;
 
-        AudioSource audioSource;
+        AudioSource audioSource = null;
+
+        Enemy currentEnemy = null;
+
+        
 
 #region UNITY METHODS
         void Awake()
@@ -51,24 +63,63 @@ namespace RPG.Characters
             SetCurrentMaxHealth();
             PutWeaponInHand();
             SetupRuntimeAnimator();
-            abilities[0].AttachComponentTo(gameObject);
+            AttachAbilities();
         }
+
+        
+
+        void Update()
+        {
+            if(IsPlayerAlive())
+            {
+                // Scan for key press
+                ScanForAbilityKeyDown();
+
+            }
+        }
+
 #endregion
 
 
 #region CUSTOM METHODS
-        
-        private void AttackTarget(Enemy enemy)
+
+        private void AttachAbilities()
+        {
+            for( int abilityIndex = 0; abilityIndex < abilities.Length; abilityIndex ++)
+            {
+                abilities[abilityIndex].AttachComponentTo(gameObject);
+            }
+        }
+
+        private void AttackTarget()
         {
             if ( Time.time - lastTimeHit > weaponInUse.GetMinTimeBetweenHits() )
             {
                 animator.SetTrigger(ATTACK_TRIGGER);
-                enemy.TakeDamage(baseDamage);
+                currentEnemy.TakeDamage(CalculateDamage());
                 lastTimeHit = Time.time;
             }
         }
 
-         private void AttemptSpecialAbility(int abilityIndex, Enemy enemy)
+        private float CalculateDamage()
+        {
+            float totalDamage = baseDamage + weaponInUse.GetAdditionalDamage();
+
+            bool isCriticalHit = UnityEngine.Random.Range(0f,1f) <= criticalHitChance;
+
+            if(isCriticalHit)
+            {
+                criticalHitParticle.Play();
+                totalDamage *= criticalHitMultiplier;
+            }
+
+            Debug.Log ("Damage = " + totalDamage);
+
+            return totalDamage;
+
+        }
+
+         private void AttemptSpecialAbility(int abilityIndex)
         {
             var energyCost = abilities[abilityIndex].GetEnergyCost();
             
@@ -76,14 +127,26 @@ namespace RPG.Characters
             {
                 energyComponent.ReduceEnergy(energyCost);
                 
-                var abilityUseParams = new AbilityUseParams(enemy, baseDamage);
+                var abilityUseParams = new AbilityUseParams(currentEnemy, baseDamage);
                 abilities[abilityIndex].Use(abilityUseParams);
             }
         }
 
+        public AudioSource GetAudioSource()
+        {
+            return audioSource;
+        }
+
+
         public float healthAsPercentage
         {
             get { return currentHealthPoints / (float)maxHealthPoints; }
+        }
+
+        public void IncreaseHealth(float health)
+        {
+            currentHealthPoints = Mathf.Clamp(currentHealthPoints + health, 0f, maxHealthPoints);
+
         }
 
         void InitializeComponents()
@@ -98,6 +161,11 @@ namespace RPG.Characters
         {
             float distanceToTarget = (targetPosition - transform.position).magnitude;
             return distanceToTarget <= weaponInUse.GetMaxAttackRange();
+        }
+
+        bool IsPlayerAlive()
+        {
+            return healthAsPercentage > Mathf.Epsilon;
         }
 
         IEnumerator KillPlayer()
@@ -118,13 +186,14 @@ namespace RPG.Characters
 
         void OnMouseOverEnemy(Enemy enemy)
         {
+            currentEnemy = enemy;
             if(Input.GetMouseButton(0)  && IsTargetInRange(enemy.transform.position))
             {
-                    AttackTarget(enemy);
+                    AttackTarget();
             }
             else if(Input.GetMouseButtonDown(1))
             {
-                AttemptSpecialAbility(0, enemy);
+                AttemptSpecialAbility(0);
             }
         }
 
@@ -169,6 +238,25 @@ namespace RPG.Characters
             Assert.AreNotEqual(numberOfDominantHands, 0, "No DominantHand found on player. Please add one.");
             Assert.IsFalse(numberOfDominantHands > 1, "Multiple DominantHand scripts on player. Please remove one.");
             return dominantHands[0].gameObject;
+        }
+
+        private void ScanForAbilityKeyDown()
+        {
+            if(Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                AttemptSpecialAbility(1);
+            }
+
+            if(Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                AttemptSpecialAbility(2);
+            }
+
+            if(Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                AttemptSpecialAbility(3);
+            }
+
         }
 
         private void SetCurrentMaxHealth()

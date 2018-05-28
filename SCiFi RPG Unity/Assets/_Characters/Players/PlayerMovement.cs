@@ -93,8 +93,6 @@ namespace RPG.Characters
             movement.Set(h, 0f, v);
             movement = movement.normalized * speed * Time.deltaTime; 
             rb.MovePosition(transform.position + movement);
-                    
-            Debug.Log("Movement: " + movement);
         }
 
         void OnMouseOverEnemy(Enemy enemy)

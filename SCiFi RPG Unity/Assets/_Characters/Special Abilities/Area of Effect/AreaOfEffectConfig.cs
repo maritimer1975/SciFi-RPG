@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace RPG.Characters
 {
-	[CreateAssetMenu(menuName="RPG/Special Ability/Area of Effect", fileName="DefaultAreaOfEffect")]
-	public class AreaOfEffectConfig : SpecialAbility
+	[CreateAssetMenu(menuName="RPG/Special Ability/Area of Effect", fileName="AOE LVXX")]
+	public class AreaOfEffectConfig : AbilityConfig
 	{
 		[Header("Area Of Effect Specific")]
 		[SerializeField] float damageToEachTarget = 10f;

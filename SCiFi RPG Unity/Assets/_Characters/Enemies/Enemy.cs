@@ -33,7 +33,6 @@ namespace RPG.Characters
         public void TakeDamage(float damage)
         {
             currentHealthPoints = Mathf.Clamp(currentHealthPoints - damage, 0, maxHealthPoints);
-            //Debug.Log("Enemy Health = (" + gameObject.name + ") " + currentHealthPoints);
 
             if(currentHealthPoints <= 0)
                 Destroy(gameObject);

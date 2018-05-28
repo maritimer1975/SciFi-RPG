@@ -1,17 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace RPG.Characters
 {
-	public class PowerAttackBehaviour : MonoBehaviour, ISpecialAbility
+	public class PowerAttackBehaviour : AbilityBehaviour
 	{
-		
-		PowerAttackConfig config;
+		Player player;
 		
 		// Use this for initialization
 		void Start () {
-			Debug.Log("Power Attack behaviour attached to " + gameObject.name);
+			player = gameObject.GetComponent<Player>();
 		}
 		
 		// Update is called once per frame
@@ -19,15 +19,28 @@ namespace RPG.Characters
 			
 		}
 
-		public void Use(AbilityUseParams useParams)
-		{
-			float damageToDeal = useParams.baseDamage + config.GetExtraDamage();
-			useParams.target.TakeDamage(damageToDeal);
-		}
+		public override void Use(AbilityUseParams useParams)
+        {
+            DealDamage(useParams);
 
-		public void SetConfig(PowerAttackConfig configToSet)
+            PlayParticleEffect();
+
+			PlaySoundEffect();
+        }
+
+        private void DealDamage(AbilityUseParams useParams)
+        {
+            float damageToDeal = useParams.baseDamage + (config as PowerAttackConfig).GetExtraDamage();
+            useParams.target.TakeDamage(damageToDeal);
+
+
+        }
+
+		private void PlaySoundEffect()
 		{
-			this.config = configToSet;
+			AudioSource audioSource = player.GetAudioSource();
+			audioSource.clip = config.GetSoundClip();
+			audioSource.Play();
 		}
 	}
 }

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddb29c30d1105e2468e022a18bfb0438, type: 3}
+  m_Name: ES LV01
+  m_EditorClassIdentifier: 
+  energyCost: 30
+  particlePrefab: {fileID: 1638654182432318, guid: 27e37e4376ea6f449a9ec9a54f464047,
+    type: 2}
+  abilitySound: {fileID: 8300000, guid: d54c5f32605ed1b448251e99e094ac9f, type: 3}
+  shieldPoints: 10
+  shieldDuration: 10
