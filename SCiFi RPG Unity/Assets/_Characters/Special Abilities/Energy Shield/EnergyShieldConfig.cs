@@ -11,12 +11,10 @@ namespace RPG.Characters
 		[SerializeField] float shieldPoints = 10f;
 		[SerializeField] float shieldDuration = 10f;
 
-		public override void AttachComponentTo(GameObject gameObjectToAttachTo)
-		{
-			var behaviourComponent = gameObjectToAttachTo.AddComponent<EnergyShieldBehaviour>();
-			behaviourComponent.SetConfig(this);
-			behaviour = behaviourComponent;
-		}
+		public override AbilityBehaviour GetBehaviourComponent(GameObject objectToAttachTo)
+        {
+             return objectToAttachTo.AddComponent<EnergyShieldBehaviour>();
+        }
 
 		public float GetShieldDuration()
 		{

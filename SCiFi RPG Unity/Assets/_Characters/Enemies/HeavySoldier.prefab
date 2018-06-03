@@ -100,7 +100,6 @@ GameObject:
   - component: {fileID: 136550887575403718}
   - component: {fileID: 195182711053181916}
   - component: {fileID: 114470604456640312}
-  - component: {fileID: 114775005002633014}
   - component: {fileID: 114644304865718788}
   m_Layer: 9
   m_Name: HeavySoldier
@@ -801,18 +800,6 @@ MonoBehaviour:
   projectileSocket: {fileID: 1286983309354610}
   aimOffset: {x: 0, y: 1, z: 0}
   chaseRadius: 7
---- !u!114 &114775005002633014
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1219341901658152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c5335f0882fe4d478883cc8c58ce906, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!114 &114786512746220988
 MonoBehaviour:
   m_ObjectHideFlags: 1

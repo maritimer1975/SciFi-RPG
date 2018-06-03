@@ -35,7 +35,7 @@ namespace RPG.Characters
         {
 			player.IncreaseHealth( (config as SelfHealConfig).GetHealAmount());  // TODO: consider making it a percent of maximum health heal
 			AudioSource audioSource = player.GetAudioSource();
-			audioSource.clip = config.GetSoundClip();
+			audioSource.clip = config.GetRandomSoundClip();
 			audioSource.Play();
         }
 	}

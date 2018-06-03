@@ -1618,6 +1618,12 @@ Prefab:
       propertyPath: m_WarningMessage
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 114305730670081004, guid: 98ac7b987bfb8de4e97e40a58df9065c,
+        type: 2}
+      propertyPath: currentWeaponConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: e17deb2016ba2534cae553def6a63804,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 98ac7b987bfb8de4e97e40a58df9065c, type: 2}
   m_IsPrefabParent: 0

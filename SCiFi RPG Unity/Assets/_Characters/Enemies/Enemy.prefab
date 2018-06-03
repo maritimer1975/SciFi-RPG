@@ -179,7 +179,6 @@ GameObject:
   - component: {fileID: 13654204}
   - component: {fileID: 19597056}
   - component: {fileID: 11450346}
-  - component: {fileID: 114653667784451142}
   - component: {fileID: 114982523878980002}
   m_Layer: 9
   m_Name: Enemy
@@ -2786,18 +2785,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyCanvasPrefab: {fileID: 1311539807392560, guid: 9a9d70d10b9331d469e57254147e0430,
     type: 2}
---- !u!114 &114653667784451142
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 113348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c5335f0882fe4d478883cc8c58ce906, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!114 &114982523878980002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2812,7 +2799,8 @@ MonoBehaviour:
   maxHealthPoints: 100
   attackRadius: 5
   damagePerShot: 9
-  secondsBetweenShots: 1
+  firingPeriodInS: 1
+  firingPeriodVariation: 0.1
   projectileToUse: {fileID: 1208678635681136, guid: 2fd957671bacccb44beaf866ae94583b,
     type: 2}
   projectileSocket: {fileID: 1798350538765034}

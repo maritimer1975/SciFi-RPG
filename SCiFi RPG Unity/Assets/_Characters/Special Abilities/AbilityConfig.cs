@@ -24,11 +24,24 @@ namespace RPG.Characters
 		[SerializeField] float energyCost = 10f;
 		[SerializeField] GameObject particlePrefab = null;
 		
-		[SerializeField] AudioClip abilitySound;
+		[SerializeField] AudioClip[] abilitySounds;
 
 		protected AbilityBehaviour behaviour;
 
-		abstract public void AttachComponentTo(GameObject gameObjectToAttachTo);
+		public abstract AbilityBehaviour GetBehaviourComponent(GameObject objectToAttachTo);
+
+		public void AttachAbilityTo(GameObject objectToAttachTo)
+		{
+			AbilityBehaviour behaviourComponent = GetBehaviourComponent(objectToAttachTo);
+			behaviourComponent.SetConfig(this);
+			behaviour = behaviourComponent;
+		}
+
+		protected void SetBehaviour(AbilityBehaviour behaviourComponent)
+        {
+            behaviourComponent.SetConfig(this);
+            behaviour = behaviourComponent;
+        }
 
 		public float GetEnergyCost()
 		{
@@ -45,9 +58,9 @@ namespace RPG.Characters
 			behaviour.Use(useParams);
 		}
 
-		public AudioClip GetSoundClip()
+		public AudioClip GetRandomSoundClip()
 		{
-			return abilitySound;
+			return abilitySounds[Random.Range(0, abilitySounds.Length)];
 		}
 	}
 }

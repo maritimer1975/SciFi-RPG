@@ -32,14 +32,7 @@ namespace RPG.Characters
 			PlaySoundEffect();
 
         }
-
-		private void PlaySoundEffect()
-		{
-			AudioSource audioSource = player.GetAudioSource();
-			audioSource.clip = config.GetSoundClip();
-			audioSource.Play();
-		}
-
+		
         private void DealRadialDamage(AbilityUseParams useParams)
         {
             float damageToDeal = useParams.baseDamage + (config as AreaOfEffectConfig).DamageToEachTarget();

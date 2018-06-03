@@ -14,6 +14,8 @@ MonoBehaviour:
   energyCost: 30
   particlePrefab: {fileID: 1638654182432318, guid: 27e37e4376ea6f449a9ec9a54f464047,
     type: 2}
-  abilitySound: {fileID: 8300000, guid: d54c5f32605ed1b448251e99e094ac9f, type: 3}
+  abilitySounds:
+  - {fileID: 8300000, guid: d54c5f32605ed1b448251e99e094ac9f, type: 3}
+  - {fileID: 8300000, guid: 8268665c0a116964dbe609e64b025ae2, type: 3}
   shieldPoints: 10
   shieldDuration: 10

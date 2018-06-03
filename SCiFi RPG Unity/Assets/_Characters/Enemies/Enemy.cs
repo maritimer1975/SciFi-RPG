@@ -2,18 +2,17 @@
 
 // TODO: Consider rewiring
 using RPG.Core;
-using RPG.Weapons;
 
 namespace RPG.Characters
 {
-    [RequireComponent (typeof(AICharacterControl))]
+    //[RequireComponent (typeof(AICharacterControl))]
     public class Enemy : MonoBehaviour, IDamageable
     {
 
         [SerializeField] float maxHealthPoints;
         float currentHealthPoints;
         
-        AICharacterControl aiCharacterControl = null;
+        // aiCharacterControl = null;
         Player player = null;
 
         [SerializeField] float attackRadius = 4f;
@@ -41,7 +40,7 @@ namespace RPG.Characters
 
         private void Start()
         {
-            aiCharacterControl = GetComponent<AICharacterControl>();
+            //aiCharacterControl = GetComponent<AICharacterControl>();
             player = FindObjectOfType<Player>();
             currentHealthPoints = maxHealthPoints;
         }
@@ -80,10 +79,10 @@ namespace RPG.Characters
             }
                 
         
-            if(diff <= chaseRadius)
-                aiCharacterControl.SetTarget(player.transform);
-            else 
-                aiCharacterControl.SetTarget(transform);
+            // if(diff <= chaseRadius)
+            //     aiCharacterControl.SetTarget(player.transform);
+            // else 
+            //     aiCharacterControl.SetTarget(transform);
 
         }
 

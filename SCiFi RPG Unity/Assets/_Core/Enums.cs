@@ -6,5 +6,12 @@
 		DirectLocal,	// move with the keyboard/controller in a direction referenced to the character facing direction forward, back, left, right
 		Mouse // click to move
 	};
+
+	enum EquipmentSlots
+	{
+		WeaponRight = 0,
+		WeaponLeft = 1
+	}
+
 }
 

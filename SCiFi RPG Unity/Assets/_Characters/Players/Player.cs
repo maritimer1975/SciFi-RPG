@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 // TODO: Consider rewiring
 using RPG.CameraUI;
 using RPG.Core;
-using RPG.Weapons;
 using System;
 
 namespace RPG.Characters
@@ -16,7 +15,7 @@ namespace RPG.Characters
         [SerializeField] float maxHealthPoints;
         [SerializeField] float baseDamage = 10f;
 
-        [SerializeField] Weapon weaponInUse;
+        [SerializeField] Weapon currentWeaponConfig;
 
         [SerializeField] AnimatorOverrideController animatorOverrideController;
 
@@ -40,6 +39,7 @@ namespace RPG.Characters
 
         const string DEATH_TRIGGER = "Death";
         const string ATTACK_TRIGGER = "Attack";
+        const string DEFAULT_ATTACK = "DEFAULT ATTACK";
 
         CameraRaycaster cameraRaycaster;
 
@@ -49,7 +49,7 @@ namespace RPG.Characters
 
         Enemy currentEnemy = null;
 
-        
+        GameObject weaponObject = null;
 
 #region UNITY METHODS
         void Awake()
@@ -61,8 +61,8 @@ namespace RPG.Characters
         {
             RegisterObservers();
             SetCurrentMaxHealth();
-            PutWeaponInHand();
-            SetupRuntimeAnimator();
+            PutWeaponInHand(currentWeaponConfig);
+            SetAttackAnimation();
             AttachAbilities();
         }
 
@@ -87,14 +87,15 @@ namespace RPG.Characters
         {
             for( int abilityIndex = 0; abilityIndex < abilities.Length; abilityIndex ++)
             {
-                abilities[abilityIndex].AttachComponentTo(gameObject);
+                abilities[abilityIndex].AttachAbilityTo(gameObject);
             }
         }
 
         private void AttackTarget()
         {
-            if ( Time.time - lastTimeHit > weaponInUse.GetMinTimeBetweenHits() )
+            if ( Time.time - lastTimeHit > currentWeaponConfig.GetMinTimeBetweenHits() )
             {
+                SetAttackAnimation();
                 animator.SetTrigger(ATTACK_TRIGGER);
                 currentEnemy.TakeDamage(CalculateDamage());
                 lastTimeHit = Time.time;
@@ -103,7 +104,7 @@ namespace RPG.Characters
 
         private float CalculateDamage()
         {
-            float totalDamage = baseDamage + weaponInUse.GetAdditionalDamage();
+            float totalDamage = baseDamage + currentWeaponConfig.GetAdditionalDamage();
 
             bool isCriticalHit = UnityEngine.Random.Range(0f,1f) <= criticalHitChance;
 
@@ -112,11 +113,7 @@ namespace RPG.Characters
                 criticalHitParticle.Play();
                 totalDamage *= criticalHitMultiplier;
             }
-
-            Debug.Log ("Damage = " + totalDamage);
-
             return totalDamage;
-
         }
 
          private void AttemptSpecialAbility(int abilityIndex)
@@ -160,7 +157,7 @@ namespace RPG.Characters
         bool IsTargetInRange(Vector3 targetPosition)
         {
             float distanceToTarget = (targetPosition - transform.position).magnitude;
-            return distanceToTarget <= weaponInUse.GetMaxAttackRange();
+            return distanceToTarget <= currentWeaponConfig.GetMaxAttackRange();
         }
 
         bool IsPlayerAlive()
@@ -211,13 +208,27 @@ namespace RPG.Characters
             audioSource.Play();
         }
 
-        private void PutWeaponInHand()
+        public void PutWeaponInHand(Weapon weaponToUse)
         {
-            var weaponPrefab = weaponInUse.GetWeaponPrefab();
+            //TODO: refactor weapon and equipment. Make a manager component.
+            
             GameObject weaponSocket = RequestDominantHand();
-            var weapon = Instantiate(weaponPrefab, weaponSocket.transform); 
-            weapon.transform.localPosition = weaponInUse.gripTransform.localPosition;
-            weapon.transform.localRotation = weaponInUse.gripTransform.localRotation;
+
+            currentWeaponConfig = weaponToUse;
+
+            // check if a weapon is already in hand
+            RemoveEquippedWeapon(weaponObject);
+
+            var weaponPrefab = currentWeaponConfig.GetWeaponPrefab();
+            
+            weaponObject = Instantiate(weaponPrefab, weaponSocket.transform); 
+            weaponObject.transform.localPosition = currentWeaponConfig.gripTransform.localPosition;
+            weaponObject.transform.localRotation = currentWeaponConfig.gripTransform.localRotation;
+        }
+
+        private void RemoveEquippedWeapon(GameObject weaponObject)
+        {
+            Destroy(weaponObject);
         }
 
         private void RegisterObservers()
@@ -259,16 +270,21 @@ namespace RPG.Characters
 
         }
 
+        public void SetWeaponInUse(Weapon weaponConfig)
+        {
+            currentWeaponConfig = weaponConfig;
+        }
+
         private void SetCurrentMaxHealth()
         {
             currentHealthPoints = maxHealthPoints;
         }
 
-        private void SetupRuntimeAnimator()
+        private void SetAttackAnimation()
         {
             animator = GetComponent<Animator>();
             animator.runtimeAnimatorController = animatorOverrideController;
-            animatorOverrideController["DEFAULT ATTACK"] = weaponInUse.GetAttackAnimClip();  //TODO: remove string
+            animatorOverrideController[DEFAULT_ATTACK] = currentWeaponConfig.GetAttackAnimClip();  //TODO: remove string
             
             //throw new NotImplementedException();
         }

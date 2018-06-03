@@ -29,12 +29,5 @@ namespace RPG.Characters
 			
 			PlayParticleEffect();
         }
-
-		private void PlaySoundEffect()
-		{
-			AudioSource audioSource = player.GetAudioSource();
-			audioSource.clip = config.GetSoundClip();
-			audioSource.Play();
-		}
 	}
 }
