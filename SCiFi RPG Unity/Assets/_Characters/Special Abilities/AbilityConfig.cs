@@ -4,31 +4,22 @@ using UnityEngine;
 using RPG.Core;
 
 namespace RPG.Characters
-{
-	public struct AbilityUseParams
-	{
-		public IDamageable target;
-		public float baseDamage;
-
-		public AbilityUseParams(IDamageable target, float baseDamage)
-		{
-			this.target = target;
-			this.baseDamage = baseDamage;
-		}
-	}
-	
-	
+{	
 	public abstract class AbilityConfig : ScriptableObject 
 	{
+#region SERIALIZED VARIABLES		
 		[Header("Ability General")]
 		[SerializeField] float energyCost = 10f;
 		[SerializeField] GameObject particlePrefab = null;
 		
 		[SerializeField] AudioClip[] abilitySounds;
+#endregion
 
+#region VARIABLES
 		protected AbilityBehaviour behaviour;
 
 		public abstract AbilityBehaviour GetBehaviourComponent(GameObject objectToAttachTo);
+#endregion
 
 		public void AttachAbilityTo(GameObject objectToAttachTo)
 		{
@@ -53,9 +44,9 @@ namespace RPG.Characters
 			return particlePrefab;
 		}
 
-		public void Use(AbilityUseParams useParams)
+		public void Use(GameObject target)
 		{
-			behaviour.Use(useParams);
+			behaviour.Use(target);
 		}
 
 		public AudioClip GetRandomSoundClip()

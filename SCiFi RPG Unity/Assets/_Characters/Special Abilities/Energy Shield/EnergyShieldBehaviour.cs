@@ -11,11 +11,11 @@ namespace RPG.Characters
 		
 		//EnergyShieldConfig config;
 
-		Player player;
+		//Player player;
 
 		// Use this for initialization
 		void Start () {
-			player = gameObject.GetComponent<Player>();
+			//player = gameObject.GetComponent<Player>();
 		}
 		
 		// Update is called once per frame
@@ -23,7 +23,7 @@ namespace RPG.Characters
 			
 		}
 
-		public override void Use(AbilityUseParams useParams)
+		public override void Use(GameObject target)
         {
 			PlaySoundEffect();
 			

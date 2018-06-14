@@ -29,10 +29,12 @@ namespace RPG.Characters
 
 		private void DamageIfDamageable(Collision col)
 		{
-			Component damageableComponent = col.gameObject.GetComponent(typeof(IDamageable));
+			var healthSystem = col.gameObject.GetComponent<HealthSystem>();
 
-			if (damageableComponent)
-				(damageableComponent as IDamageable).TakeDamage(damageCaused);
+			if (healthSystem)
+			{
+				healthSystem.TakeDamage(damageCaused);
+			}
 			
 			Destroy(gameObject, DESTROY_DELAY);
 		}

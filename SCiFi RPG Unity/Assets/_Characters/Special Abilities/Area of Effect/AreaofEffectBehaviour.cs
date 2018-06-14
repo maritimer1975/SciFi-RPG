@@ -10,22 +10,22 @@ namespace RPG.Characters
 	{
 		
 		//AreaOfEffectConfig config;
-		
-		Player player;
-
-		// Use this for initialization
+	
+#region UNITY METHODS    
 		void Start () {
-			player = gameObject.GetComponent<Player>();
+			//player = gameObject.GetComponent<Player>();
 		}
 		
 		// Update is called once per frame
 		void Update () {
 			
 		}
+#endregion
 
-		public override void Use(AbilityUseParams useParams)
+#region CUSTOM METHODS
+		public override void Use(GameObject target)
         {
-            DealRadialDamage(useParams);
+            DealRadialDamage();
 
 			PlayParticleEffect();
 
@@ -33,9 +33,9 @@ namespace RPG.Characters
 
         }
 		
-        private void DealRadialDamage(AbilityUseParams useParams)
+        private void DealRadialDamage()
         {
-            float damageToDeal = useParams.baseDamage + (config as AreaOfEffectConfig).DamageToEachTarget();
+            float damageToDeal = (config as AreaOfEffectConfig).DamageToEachTarget();
 
             Vector3 effectOrigin = transform.position;
 
@@ -43,13 +43,15 @@ namespace RPG.Characters
 
             foreach (RaycastHit raycastHit in raycastHits)
             {
-                var damageable = raycastHit.collider.gameObject.GetComponent<IDamageable>();
-                bool hitPlayer = raycastHit.collider.gameObject.GetComponent<Player>();
-				if (damageable != null && !hitPlayer)
+                var healthSystem = raycastHit.collider.gameObject.GetComponent<HealthSystem>();
+                bool hitPlayer = raycastHit.collider.gameObject.GetComponent<PlayerControl>();
+				if (healthSystem != null && !hitPlayer)
                 {
-                    damageable.TakeDamage(damageToDeal);
+                    healthSystem.TakeDamage(damageToDeal);
                 }
             }
         }
+#endregion
+
 	}
 }

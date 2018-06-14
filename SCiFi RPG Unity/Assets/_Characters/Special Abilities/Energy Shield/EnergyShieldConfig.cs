@@ -8,7 +8,7 @@ namespace RPG.Characters
 	public class EnergyShieldConfig : AbilityConfig
 	{
 		[Header("Energy Shield Specific")]
-		[SerializeField] float shieldPoints = 10f;
+		//[SerializeField] float shieldPoints = 10f;
 		[SerializeField] float shieldDuration = 10f;
 
 		public override AbilityBehaviour GetBehaviourComponent(GameObject objectToAttachTo)

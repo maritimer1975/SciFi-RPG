@@ -7,11 +7,11 @@ namespace RPG.Characters
 {
 	public class PowerAttackBehaviour : AbilityBehaviour
 	{
-		Player player;
+		//Player player;
 		
 		// Use this for initialization
 		void Start () {
-			player = gameObject.GetComponent<Player>();
+			//player = gameObject.GetComponent<Player>();
 		}
 		
 		// Update is called once per frame
@@ -19,21 +19,21 @@ namespace RPG.Characters
 			
 		}
 
-		public override void Use(AbilityUseParams useParams)
+		public override void Use(GameObject target)
         {
-            DealDamage(useParams);
+            DealDamage(target);
 
             PlayParticleEffect();
 
 			PlaySoundEffect();
         }
 
-        private void DealDamage(AbilityUseParams useParams)
+        private void DealDamage(GameObject target)
         {
-            float damageToDeal = useParams.baseDamage + (config as PowerAttackConfig).GetExtraDamage();
-            useParams.target.TakeDamage(damageToDeal);
-
-
+            float damageToDeal = (config as PowerAttackConfig).GetExtraDamage();
+            // TODO: Fix power useParams. Not idamagable, maybe HealthSystem?
+			var targetHealth = target.GetComponent<HealthSystem>();
+			targetHealth.TakeDamage(damageToDeal);
         }
 	}
 }

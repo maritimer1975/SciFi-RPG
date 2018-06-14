@@ -28,7 +28,7 @@ namespace RPG.CameraUI
 		public event OnMouseOverTerrain notifyMouseOverTerrain; // instantiate observer set
 
 		// mouse over enemy event setup
-		public delegate void OnMouseOverEnemy(Enemy enemy);	// declare new delegate type
+		public delegate void OnMouseOverEnemy(EnemyAI enemy);	// declare new delegate type
 		public event OnMouseOverEnemy notifyMouseOverEnemy;	// instantiate observer set
 #endregion
 
@@ -55,7 +55,7 @@ namespace RPG.CameraUI
 			if(Physics.Raycast(ray, out hit, maxRaycastDepth))
 			{
 				var targetObj = hit.collider.gameObject;
-				var enemy = targetObj.GetComponent<Enemy>();
+				var enemy = targetObj.GetComponent<EnemyAI>();
 				if( enemy )
 				{
 					Cursor.SetCursor(enemyCursor, cursorHotspot, CursorMode.Auto);
@@ -81,7 +81,7 @@ namespace RPG.CameraUI
 			return false;
         }
 
-		private void NotifyMouseOverEnemyObservers(Enemy enemy)
+		private void NotifyMouseOverEnemyObservers(EnemyAI enemy)
         {
             notifyMouseOverEnemy(enemy);
         }

@@ -7,13 +7,13 @@ namespace RPG.Characters
 {
 	public class SelfHealBehaviour : AbilityBehaviour
 	{	
-		Player player = null;
+		HealthSystem playerHealth;
 
 		// Use this for initialization
 		void Start () {
 			
 
-			player = gameObject.GetComponent<Player>();
+			playerHealth = gameObject.GetComponent<HealthSystem>();
 		}
 		
 		// Update is called once per frame
@@ -21,20 +21,20 @@ namespace RPG.Characters
 			
 		}
 
-		public override void Use(AbilityUseParams useParams)
+		public override void Use(GameObject target)
         {
             // TODO: find a way to move audio and particle playing to a parent class
 			
-			ApplyHealing(useParams);
+			ApplyHealing();
 
             PlayParticleEffect();
 
         }
 
-        private void ApplyHealing(AbilityUseParams useParams)
+        private void ApplyHealing()
         {
-			player.IncreaseHealth( (config as SelfHealConfig).GetHealAmount());  // TODO: consider making it a percent of maximum health heal
-			AudioSource audioSource = player.GetAudioSource();
+			playerHealth.Heal( (config as SelfHealConfig).GetHealAmount());  // TODO: consider making it a percent of maximum health heal
+			AudioSource audioSource = playerHealth.GetAudioSource();
 			audioSource.clip = config.GetRandomSoundClip();
 			audioSource.Play();
         }

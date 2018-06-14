@@ -8,13 +8,13 @@ namespace RPG.Characters
 
 		const float PARTICLE_CLEAN_UP_DELAY = 20f;
 
-		public abstract void Use(AbilityUseParams useParams);
+		public abstract void Use(GameObject target = null);
 
 		protected void PlayParticleEffect()
         {
-			Transform particleSystemTransform = GameObject.FindWithTag("Particle Systems").transform;
-			GameObject particleObject = Instantiate(config.GetParticle(), particleSystemTransform); 
-			particleObject.GetComponent<ParticleSystem>().Play();
+			GameObject particleObject = Instantiate(config.GetParticle(), gameObject.transform);
+			ParticleSystem particleSystem = particleObject.GetComponent<ParticleSystem>();
+			particleSystem.Play(true);
 			StartCoroutine(DestroyParticleWhenFinished(particleObject));
         }
 
