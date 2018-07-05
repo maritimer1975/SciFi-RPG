@@ -17,5 +17,5 @@ MonoBehaviour:
   abilitySounds:
   - {fileID: 8300000, guid: d54c5f32605ed1b448251e99e094ac9f, type: 3}
   - {fileID: 8300000, guid: 8268665c0a116964dbe609e64b025ae2, type: 3}
-  shieldPoints: 10
+  animClip: {fileID: 7400000, guid: 9d4050b41f686a947b403b85bcf73ca7, type: 3}
   shieldDuration: 10

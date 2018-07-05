@@ -18,4 +18,5 @@ MonoBehaviour:
   attackAnimation: {fileID: 7400000, guid: 178c4e04ea221294a8b4befca0ba9aad, type: 3}
   minTimeBetweenHits: 2
   maxAttackRange: 3
-  additionalDamage: 5
+  additionalDamage: 75
+  damageDelay: 0.5

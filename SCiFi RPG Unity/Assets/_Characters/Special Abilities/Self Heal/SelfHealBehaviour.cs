@@ -26,9 +26,8 @@ namespace RPG.Characters
             // TODO: find a way to move audio and particle playing to a parent class
 			
 			ApplyHealing();
-
             PlayParticleEffect();
-
+			PlayAbilityAnimation();
         }
 
         private void ApplyHealing()

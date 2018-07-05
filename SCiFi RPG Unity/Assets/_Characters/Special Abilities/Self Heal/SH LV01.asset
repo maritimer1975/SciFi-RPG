@@ -17,4 +17,5 @@ MonoBehaviour:
   abilitySounds:
   - {fileID: 8300000, guid: 3a1434542aee584429ee328a39303e09, type: 3}
   - {fileID: 8300000, guid: 44e5be168d58e654b9312feea6ee71d6, type: 3}
+  animClip: {fileID: 7400000, guid: d3f62b23efa59434790688467d0eab95, type: 3}
   healAmount: 100

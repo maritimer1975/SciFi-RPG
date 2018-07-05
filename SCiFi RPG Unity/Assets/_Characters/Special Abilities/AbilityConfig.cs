@@ -13,6 +13,7 @@ namespace RPG.Characters
 		[SerializeField] GameObject particlePrefab = null;
 		
 		[SerializeField] AudioClip[] abilitySounds;
+		[SerializeField] AnimationClip animClip;
 #endregion
 
 #region VARIABLES
@@ -21,6 +22,11 @@ namespace RPG.Characters
 		public abstract AbilityBehaviour GetBehaviourComponent(GameObject objectToAttachTo);
 #endregion
 
+#region PROPERTIES GET/SET
+		public AnimationClip AnimClip { get { return animClip; }}
+#endregion
+
+#region CUSTOM METHODS
 		public void AttachAbilityTo(GameObject objectToAttachTo)
 		{
 			AbilityBehaviour behaviourComponent = GetBehaviourComponent(objectToAttachTo);
@@ -53,5 +59,6 @@ namespace RPG.Characters
 		{
 			return abilitySounds[Random.Range(0, abilitySounds.Length)];
 		}
+#endregion
 	}
 }

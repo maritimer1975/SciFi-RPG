@@ -48,11 +48,15 @@ namespace RPG.Characters
 			Instantiate(weapon, gameObject.transform);
         }
 
-		public void OnTriggerEnter()
+		public void OnTriggerEnter(Collider other)
 		{
-			WeaponSystem weaponSystem = FindObjectOfType<WeaponSystem>();
-			weaponSystem.PutWeaponInHand(weaponConfig);
-			PlaySoundEffect();
+			PlayerControl playerComponent = other.GetComponent<PlayerControl>();
+			if(playerComponent != null)
+			{
+				Debug.Log("Pick up weapon");
+				other.GetComponent<WeaponSystem>().PutWeaponInHand(weaponConfig);
+				PlaySoundEffect();
+			}
 		}
 
 		protected void PlaySoundEffect()

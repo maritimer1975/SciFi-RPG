@@ -1,14 +1,29 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+
 namespace RPG.Characters
 {
+	[RequireComponent (typeof(Character))]
+
     public abstract class AbilityBehaviour : MonoBehaviour {
 		protected AbilityConfig config;
 
 		const float PARTICLE_CLEAN_UP_DELAY = 20f;
+		const string ATTACK_TRIGGER = "Attack";
+        const string DEFAULT_ATTACK = "DEFAULT ATTACK";
 
 		public abstract void Use(GameObject target = null);
+
+		protected void PlayAbilityAnimation()
+		{
+			var character = GetComponent<Character>();
+			var anim = GetComponent<Animator>();
+			var animOverrideController = character.getAnimOverrideController;
+			anim.runtimeAnimatorController = animOverrideController;
+			animOverrideController[DEFAULT_ATTACK] = config.AnimClip;
+			anim.SetTrigger(ATTACK_TRIGGER);
+		}
 
 		protected void PlayParticleEffect()
         {

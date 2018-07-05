@@ -44,7 +44,30 @@ namespace RPG.Characters
 		
 		void Update ()
 		{
-			
+			// check if target out of range, alive, etc.
+            bool isTargetDead;
+            bool isTargetOutOfRange;
+
+            if(target == null)
+            {
+                isTargetDead = false;
+                isTargetOutOfRange = false;
+            }
+            else
+            {
+                // test if target is dead
+                isTargetDead = target.GetComponent<HealthSystem>().IsCharacterDead();
+                // test if target is out of range
+                isTargetOutOfRange = Vector3.Distance(transform.position, target.transform.position) > currentWeaponConfig.GetMaxAttackRange();
+            }
+
+            bool characterIsDead = GetComponent<HealthSystem>().IsCharacterDead();
+
+            if(characterIsDead || isTargetOutOfRange || isTargetDead)
+            {   
+                StopAllCoroutines();
+            }
+
 		}
 #endregion
 
@@ -58,24 +81,57 @@ namespace RPG.Characters
 
 		public void AttackTarget(GameObject targetToAttack)
 		{
-			target = targetToAttack;
-			Debug.Log("Attacking target: " + targetToAttack);
-			// TODO: use a repeat attack co-routine
-
+            target = targetToAttack;
+            StartCoroutine( AttackTargetRepeatedly() ) ;
 		}
 
-		// TODO: use co-routing to move and attack
-        private void AttackTarget()
+        private void AttackTargetOnce()
         {
-            if ( Time.time - lastTimeHit > currentWeaponConfig.GetMinTimeBetweenHits() )
-            {
-                SetAttackAnimation();
-                anim.SetTrigger(ATTACK_TRIGGER);
-                var enemyHealth = target.GetComponent<HealthSystem>();
-                enemyHealth.TakeDamage(CalculateDamage());
-                lastTimeHit = Time.time;
-            }
+            transform.LookAt(target.transform);
+            SetAttackAnimation();
+            anim.SetTrigger(ATTACK_TRIGGER);
+            float damageDelay = currentWeaponConfig.DamageDelay;
+
+            StartCoroutine( DamageAfterDelay(damageDelay) );
         }
+
+        IEnumerator AttackTargetRepeatedly()
+        {
+            Debug.Log("Starting repeated attacks");
+            
+            // determine if still alive (attacker and defender)
+            bool isAttackerAlive = GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
+            bool isTargetAlive = target.GetComponent<HealthSystem>().healthAsPercentage >= Mathf.Epsilon;
+
+            while( isAttackerAlive && isTargetAlive)
+            {
+                float weaponHitPeriod = currentWeaponConfig.GetMinTimeBetweenHits();
+                float timeToWait = weaponHitPeriod * character.getAnimSpeedMultiplier;
+                bool isTimeToHitAgain = Time.time - lastTimeHit > timeToWait;
+                if(isTimeToHitAgain)
+                {
+                    AttackTargetOnce();
+                    lastTimeHit = Time.time;
+                }
+                yield return new WaitForSeconds(timeToWait);
+            }
+                // know how often to attack
+                // if time to hit agin
+                    // hit target
+        }
+
+		// TODO: use co-routing to move and attack
+        // private void AttackTarget()
+        // {
+        //     if ( Time.time - lastTimeHit > currentWeaponConfig.GetMinTimeBetweenHits() )
+        //     {
+        //         SetAttackAnimation();
+        //         anim.SetTrigger(ATTACK_TRIGGER);
+        //         var enemyHealth = target.GetComponent<HealthSystem>();
+        //         enemyHealth.TakeDamage(CalculateDamage());
+        //         lastTimeHit = Time.time;
+        //     }
+        // }
 
         // TODO: should this be in the weapon system
          private float CalculateDamage()
@@ -83,6 +139,12 @@ namespace RPG.Characters
             float totalDamage = baseDamage + currentWeaponConfig.GetAdditionalDamage();
 
             return totalDamage;
+        }
+
+        IEnumerator DamageAfterDelay(float delay)
+        {
+            yield return new WaitForSecondsRealtime(delay);
+            target.GetComponent<HealthSystem>().TakeDamage( CalculateDamage() );
         }
 
 		private void InitializeComponents()
@@ -125,14 +187,28 @@ namespace RPG.Characters
 
 		private void SetAttackAnimation()
         {
-            var animOverrideController = character.getAnimatorOverrideController;
-			anim.runtimeAnimatorController = animOverrideController;
-            animOverrideController[DEFAULT_ATTACK] = currentWeaponConfig.GetAttackAnimClip();
+            // protect against no override controller
+            if(!character.getAnimOverrideController)
+            {
+                Debug.Break();
+                Debug.LogAssertion("Please provide " + gameObject + " with an animator override controller!");
+            }
+            else
+            {
+                var animOverrideController = character.getAnimOverrideController;
+                anim.runtimeAnimatorController = animOverrideController;
+                animOverrideController[DEFAULT_ATTACK] = currentWeaponConfig.GetAttackAnimClip();
+            }
         }
 
 		public void SetWeaponInUse(WeaponConfig weaponConfig)
         {
             currentWeaponConfig = weaponConfig;
+        }
+
+        public void StopAttacking()
+        { 
+            StopAllCoroutines();
         }
 #endregion
 	}

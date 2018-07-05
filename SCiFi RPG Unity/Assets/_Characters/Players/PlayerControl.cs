@@ -1,12 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Assertions;
-using UnityEngine.SceneManagement;
 
 // TODO: Consider rewiring
 using RPG.CameraUI;
-using RPG.Core;
-using System;
 
 //TODO: extract weapon systems
 namespace RPG.Characters
@@ -26,8 +22,6 @@ namespace RPG.Characters
 #endregion
 
 #region VARIABLES
-
-        CameraRaycaster cameraRaycaster;
 
         SpecialAbilities specialAbilities;
 
@@ -77,7 +71,6 @@ namespace RPG.Characters
 
         void InitializeComponents()
         {
-            cameraRaycaster = FindObjectOfType<CameraRaycaster>();
             specialAbilities = GetComponent<SpecialAbilities>();
             healthSystem = GetComponent<HealthSystem>();
             character = GetComponent<Character>();
@@ -90,27 +83,55 @@ namespace RPG.Characters
             return distanceToTarget <= weaponSystem.getCurrentWeapon.GetMaxAttackRange();
         }
 
-        private void MoveToTarget(GameObject target)
+        IEnumerator MoveToTarget(EnemyAI target)
         {
-            Debug.Log("Move Too"); // TODO: call player movement to move to target
+            character.SetDestination(target.transform.position);
+
+            while(!IsTargetInRange(target.transform.position))
+            {
+                yield return new WaitForEndOfFrame();
+            }
+            yield return new WaitForEndOfFrame();
+        }
+
+        IEnumerator MoveAndAbility(EnemyAI target)
+        {
+            yield return StartCoroutine( MoveToTarget(target) );
+            specialAbilities.AttemptSpecialAbility(0, target.gameObject);
+        }
+
+        IEnumerator MoveAndAttack(EnemyAI target)
+        {
+            yield return StartCoroutine( MoveToTarget(target) );
+            weaponSystem.AttackTarget(target.gameObject);
         }
 
         void OnMouseOverEnemy(EnemyAI enemy)
         {
             currentEnemy = enemy;
-            if(Input.GetMouseButton(0)  && IsTargetInRange(enemy.transform.position))
+            if( Input.GetMouseButton(0)  && IsTargetInRange(enemy.transform.position) )
             {
                     weaponSystem.AttackTarget(enemy.gameObject);
             }
-            else if(Input.GetMouseButtonDown(1))
+            else if( Input.GetMouseButton(0)  && !IsTargetInRange(enemy.transform.position) )
             {
-                specialAbilities.AttemptSpecialAbility(0);
+                // move and attack
+                StartCoroutine( MoveAndAttack(enemy) );    
+            }
+            else if( Input.GetMouseButtonDown(1) && IsTargetInRange(enemy.transform.position) )
+            {
+                specialAbilities.AttemptSpecialAbility(0, enemy.gameObject); // targeting the enemy we click on
+            }
+            else if( Input.GetMouseButtonDown(1) && !IsTargetInRange(enemy.transform.position) )
+            {
+                // move and ability
+                StartCoroutine( MoveAndAbility(enemy) );
             }
         }
 
         void OnMouseOverTerrain(Vector3 worldPos)
         {
-            if(Input.GetMouseButtonDown(0))
+            if(Input.GetMouseButton(0))
             {
                 character.SetDestination(worldPos);
             }
@@ -118,8 +139,8 @@ namespace RPG.Characters
 
         private void RegisterObservers()
         {
+            var cameraRaycaster = FindObjectOfType<CameraRaycaster>();
             cameraRaycaster.notifyMouseOverEnemy += OnMouseOverEnemy;
-
             cameraRaycaster.notifyMouseOverTerrain += OnMouseOverTerrain;
         }
 

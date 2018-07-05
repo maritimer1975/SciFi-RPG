@@ -26,8 +26,8 @@ namespace RPG.Characters
 		public override void Use(GameObject target)
         {
 			PlaySoundEffect();
-			
 			PlayParticleEffect();
+			PlayAbilityAnimation();
         }
 	}
 }

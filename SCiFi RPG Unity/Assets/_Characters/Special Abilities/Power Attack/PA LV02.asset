@@ -16,4 +16,5 @@ MonoBehaviour:
     type: 2}
   abilitySounds:
   - {fileID: 8300000, guid: a5ffbeb622adb37499fac1390a8ba247, type: 3}
+  animClip: {fileID: 7400000, guid: 97dec6fa5304355458b6e8e35936d880, type: 3}
   extraDamage: 50
