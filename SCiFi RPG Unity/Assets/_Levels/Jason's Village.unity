@@ -113,6 +113,23 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: e3423d4b6d1561047ba5110231d3822d, type: 2}
+--- !u!1 &1372896 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1243274310699506, guid: 98ac7b987bfb8de4e97e40a58df9065c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1754111967}
+--- !u!114 &1372903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1372896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a9a61ea836940647b9d075cdff0e505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
 --- !u!1 &18638793
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afd5ab45e78534a48809b282cd001649, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  filePath: C:/Test Data
+  filePath: C:/Test Data/playerInfo.dat
 --- !u!4 &18638795
 Transform:
   m_ObjectHideFlags: 0
@@ -826,31 +843,31 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4304635217394052, guid: 76127c06a634ab14f81e471f7312d7a3, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 64.274
+      value: 46.02
       objectReference: {fileID: 0}
     - target: {fileID: 4304635217394052, guid: 76127c06a634ab14f81e471f7312d7a3, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 10.727
+      value: 2.8
       objectReference: {fileID: 0}
     - target: {fileID: 4304635217394052, guid: 76127c06a634ab14f81e471f7312d7a3, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -72.968
+      value: -0.86
       objectReference: {fileID: 0}
     - target: {fileID: 4304635217394052, guid: 76127c06a634ab14f81e471f7312d7a3, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.16840114
+      value: -0.087756194
       objectReference: {fileID: 0}
     - target: {fileID: 4304635217394052, guid: 76127c06a634ab14f81e471f7312d7a3, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.82550514
       objectReference: {fileID: 0}
     - target: {fileID: 4304635217394052, guid: 76127c06a634ab14f81e471f7312d7a3, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.13385049
       objectReference: {fileID: 0}
     - target: {fileID: 4304635217394052, guid: 76127c06a634ab14f81e471f7312d7a3, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.9857186
+      value: -0.5412247
       objectReference: {fileID: 0}
     - target: {fileID: 4304635217394052, guid: 76127c06a634ab14f81e471f7312d7a3, type: 2}
       propertyPath: m_RootOrder
@@ -861,21 +878,6 @@ Prefab:
       propertyPath: target
       value: 
       objectReference: {fileID: 827488248}
-    - target: {fileID: 114254598795417268, guid: 76127c06a634ab14f81e471f7312d7a3,
-        type: 2}
-      propertyPath: elevation
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 114254598795417268, guid: 76127c06a634ab14f81e471f7312d7a3,
-        type: 2}
-      propertyPath: distanceToTarget
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 114254598795417268, guid: 76127c06a634ab14f81e471f7312d7a3,
-        type: 2}
-      propertyPath: azimuth
-      value: 42
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 76127c06a634ab14f81e471f7312d7a3, type: 2}
   m_IsPrefabParent: 0
@@ -7804,16 +7806,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114144817111532054, guid: 98ac7b987bfb8de4e97e40a58df9065c,
-        type: 2}
-      propertyPath: healthBar
-      value: 
-      objectReference: {fileID: 742167296}
     - target: {fileID: 114734722957537338, guid: 98ac7b987bfb8de4e97e40a58df9065c,
         type: 2}
       propertyPath: energyBar
       value: 
       objectReference: {fileID: 127679716}
+    - target: {fileID: 114144817111532054, guid: 98ac7b987bfb8de4e97e40a58df9065c,
+        type: 2}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 742167296}
+    - target: {fileID: 114305730670081004, guid: 98ac7b987bfb8de4e97e40a58df9065c,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 98ac7b987bfb8de4e97e40a58df9065c, type: 2}
   m_IsPrefabParent: 0

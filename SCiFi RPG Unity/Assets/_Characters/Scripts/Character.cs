@@ -46,8 +46,10 @@ namespace RPG.Characters
         [SerializeField] float animSpeedMultiplier = 1.5f;
 
         [Header("Character Stats")]
-        [SerializeField] float strength;
-        [SerializeField] public CharacterStat dexterity;
+        [SerializeField] float strengthValue;
+        [HideInInspector] public CharacterStat strengthStat;
+        [SerializeField] public float dexterityValue;
+        [HideInInspector] public CharacterStat dexterityStat;
 
 #endregion
 
@@ -85,6 +87,10 @@ namespace RPG.Characters
         void Start()
         {
             InitializeComponents();
+
+            strengthStat = new CharacterStat(strengthValue);
+            dexterityStat = new CharacterStat(dexterityValue);
+
             //RegisterObservers();
         }
 
@@ -183,6 +189,15 @@ namespace RPG.Characters
             ApplyExtraTurnRotation();
 			
             UpdateAnimator();
+        }
+
+        public void MoveKeyboard(Vector3 movement)
+        {
+            //TODO: movement is "sliding" after key up. fix!!
+            
+            transform.Translate(movement);
+            
+            //UpdateAnimator();
         }
 
         void OnAnimatorMove()

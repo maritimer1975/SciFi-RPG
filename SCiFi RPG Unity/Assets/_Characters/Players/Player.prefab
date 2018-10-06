@@ -253,6 +253,7 @@ GameObject:
   - component: {fileID: 114734722957537338}
   - component: {fileID: 114144817111532054}
   - component: {fileID: 114975965778834440}
+  - component: {fileID: 114161305971171168}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -2006,6 +2007,22 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 185b268b9c2681544bc6b6dfdda8de1e, type: 3}
   - {fileID: 8300000, guid: 2ce7d27407d4af54b9e06edc029a9ca9, type: 3}
   deathVanishSeconds: 2
+--- !u!114 &114161305971171168
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1243274310699506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f2f1d9a08621c4c9e8af01b2c1fc56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+  - statName: strength
+    baseValue: 100
+  - statName: dexterity
+    baseValue: 150
 --- !u!114 &114272079648426652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2036,9 +2053,14 @@ MonoBehaviour:
   movingTurnSpeed: 3000
   stationaryTurnSpeed: 3000
   animSpeedMultiplier: 1
-  strength: 0
-  dexterity:
-    baseValue: 100
+  strengthValue: 100
+  strengthStat:
+    statName: 
+    baseValue: 0
+  dexterityValue: 100
+  dexterityStat:
+    statName: 
+    baseValue: 0
 --- !u!114 &114305730670081004
 MonoBehaviour:
   m_ObjectHideFlags: 1
